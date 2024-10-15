@@ -24,13 +24,13 @@ class ChatProvider extends ChangeNotifier {
     // Enviar solicitud a la API de Gemini (reemplaza con tu propia URL y lógica)
     final response = await http.post(
       Uri.parse(
-          'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyDuty0yNncKTox90eVAMxHGR1pGM2wc2FU'),
+          'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyAQ8hJOCIOMrJJpl8fqzgMGvceVcswGke4'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
         "contents": [
           {
             "parts": [
-              {"text": 'Respondeme en español $combinedMessages'}
+              {"text": combinedMessages}
             ]
           }
         ]
@@ -45,6 +45,7 @@ class ChatProvider extends ChangeNotifier {
 
       // Accede a la respuesta de la IA
       String reply = data['candidates'][0]['content']['parts'][0]['text'];
+      _promptsHistory.add(reply);
 
       // Agrega la respuesta de la IA a la lista de mensajes
       _messages.add(ChatMessage(message: reply, isUser: false));
